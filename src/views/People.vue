@@ -26,6 +26,7 @@
                 <li><a :href="`${link.link}`" target="_blank">{{link.name}}</a></li>
               </ul>
             </div>
+            <br/>
             <button v-if="isAdmin" class="button" v-on:click="removeUser(index)">Delete</button>
             {{' '}}
             <button v-if="isAdmin" class="button" v-on:click="toggleUserShow(index)">{{user.show ? "HIDE" : "SHOW"}}</button>
