@@ -9,7 +9,7 @@ const columnNames = {
   description: "description",
   link: "link",
   name: "name",
-  hide: "hide"
+  show: "show"
 };
 Object.freeze(columnNames);
 
@@ -30,7 +30,7 @@ function createUserTable() {
     ${columnNames.username} TEXT NOT NULL UNIQUE,
     ${columnNames.password} TEXT NOT NULL,
     ${columnNames.description} TEXT,
-    ${columnNames.hide} BOOL 
+    ${columnNames.show} BOOL DEFAULT FALSE
   )`);
 };
 

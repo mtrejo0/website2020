@@ -105,8 +105,15 @@ input[type="url"] {
 .next {
     display: flex;
     flex-direction: row;
+}
+
+ @media (max-width: 700px) {
+    .next {
+      display: block;
+    }
   }
-  .payments{
-    margin-left: 64px;
-  }
+
+.payments{
+  margin-left: 64px;
+}
 </style>

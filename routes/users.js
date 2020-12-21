@@ -269,118 +269,25 @@ router.post(
 
 
 /**
- * Get payments for a user
- * @name GET/api/users/payment
+ * Toggle the show for the user
+ * 
+ * @name PUT/api/users/show/:id
+ * @param {string} id = user_id 
  */
-router.get(
-  '/payment',
-  [
-    v.ensureUserLoggedIn
-  ],
-  async (req, res) => {
-  try {
-    console.log('yerr')
-
-    let links = await Users.getLinks(req.session.user_id);
-    res.status(200).json({links}).end();
-    
-  } catch (error) {
-    res.status(503).json({ error: `Could not get links` }).end();
-    return;
-  }
-});
-
-
-
-/**
- * Add payment for a user
- * @name POST/api/users/payment
- * @param {string} payment 
- */
-router.post(
-  '/payment',
-  [
-    v.ensureUserLoggedIn,
-    v.ensureValidPaymentInBody
-  ],
-  async (req, res) => {
-  try {
-
-    await Users.addPayment(req.session.user_id, req.body.payment);
-
-    res.status(200).json({message: `New payment was saved!`}).end();
-    
-  } catch (error) {
-    res.status(503).json({ error: `Could not add payment` }).end();
-    return;
-  }
-});
-
-/**
- * Remove payment for a user
- * @name POST/api/users/payment/delete
- * @param {string} payment 
- */
-router.post(
-  '/payment-delete',
-  [
-    v.ensureUserLoggedIn
-  ],
-  async (req, res) => {
-  try {
-    await Users.removePayment(req.session.user_id, req.body.payment);
-
-    res.status(200).json({message: `New payment was removed!`}).end();
-    
-  } catch (error) {
-    res.status(503).json({ error: `Could not remove payment` }).end();
-    return;
-  }
-});
-
-/**
- * Add like for post
- * @name POST/api/users/payment
- * @param {string} id - id of post 
- */
-router.post(
-  '/like/:id',
+router.put(
+  '/show/:id',
   [
     v.ensureUserLoggedIn,
   ],
   async (req, res) => {
   try {
-
-    await Users.addLike(req.params.id, req.session.user_id);
-
-    res.status(201).json({message: `Liked was saved!`}).end();
-    
+    const id = req.params.id;
+    let user = await Users.toggleShow(id);
+    console.log(user)
+    res.status(200).json({ message: `Succesfully changed show`}).end();
   } catch (error) {
-    res.status(503).json({ error: `Failed to like` }).end();
-    return;
-  }
-});
-
-
-/**
- * Remove like for post
- * @name DELETE/api/users/payment
- * @param {string} id - id of post 
- */
-router.delete(
-  '/like/:id',
-  [
-    v.ensureUserLoggedIn,
-  ],
-  async (req, res) => {
-  try {
-
-    await Users.removeLike(req.params.id, req.session.user_id);
-    res.status(200).json({message: `Liked was removed!`}).end();
-    
-  } catch (error) {
-    res.status(503).json({ error: `Failed to unlike` }).end();
-    return;
+    console.log(error)
+      res.status(503).json({ error: `Could not change show!` }).end();
   }
 });
 

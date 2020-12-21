@@ -142,90 +142,14 @@ class Users {
     ${db.columnNames.link} = '${link}'`)
   }
 
-  /**
-   * Get all vaccines for a User
-   * @param {string} user_id - user_id
-   */
-  static async getVaccines(user_id) {
-    return db.all(`SELECT * from vaccineHistory 
-    WHERE ${db.columnNames.user_id} = '${user_id}'`)
-  }
 
   /**
-   * Add a vaccine for Users
-   * @param {string} vaccine - vaccine name
-   * @param {string} date - vaccine date
-   */
-  static async addVaccine(user_id, vaccine, date) {
-    return db.run(`INSERT INTO vaccineHistory 
-    (${db.columnNames.userID},${db.columnNames.vaccine}, ${db.columnNames.date}) 
-    VALUES ('${user_id}','${vaccine}', '${date}')`)
-  }
-
-  /**
-   * Remove a vaccine for Users
-   * @param {string} vaccine - vaccine name
-   * @param {string} date - vaccine date
-   */
-  static async removeVaccine(user_id, vaccine, date) {
-    return db.run(`DELETE FROM vaccineHistory WHERE
-    ${db.columnNames.userID} = '${user_id}' AND
-    ${db.columnNames.vaccine} = '${vaccine}' AND
-    ${db.columnNames.date} = '${date}'`)
-  }
-
-  
-
-  /**
-   * Get all payments for a User
-   * @param {string} user_id - user_id
-   */
-  static async getPayments(user_id) {
-    return db.all(`SELECT * from paymentHistory 
-    WHERE ${db.columnNames.userID} = '${user_id}'`)
-  }
-
-  /**
-   * Add a payment for Users
-   * @param {string} payment - payment
-   */
-  static async addPayment(user_id, payment) {
-    return db.run(`INSERT INTO paymentHistory 
-    (${db.columnNames.userID},${db.columnNames.payment}) 
-    VALUES ('${user_id}','${payment}')`)
-  }
-
-  /**
-   * Remove a payment for Users
-   * @param {string} payment - payment
-   */
-  static async removePayment(user_id, payment) {
-    console.log(user_id, payment)
-    return db.run(`DELETE FROM paymentHistory WHERE
-    ${db.columnNames.userID} = '${user_id}' AND
-    ${db.columnNames.payment} = '${payment}'`)
-  }
-
-  /**
-   * Add like for post
-   * @param {string} note_id
+   * Toggle show for user
    * @param {string} user_id
    */
-  static async addLike(note_id, user_id) {
-    return db.run(`INSERT INTO noteLikes 
-    (${db.columnNames.note_id},${db.columnNames.userID}) 
-    VALUES ('${note_id}','${user_id}')`)
-  }
-
-  /**
-   * Remove like for post
-   * @param {string} note_id
-   * @param {string} user_id
-   */
-  static async removeLike(note_id, user_id) {
-    return db.run(`DELETE FROM noteLikes 
-    WHERE ${db.columnNames.note_id} = '${note_id}' AND
-    ${db.columnNames.userID} = '${user_id}'`)
+  static async toggleShow(user_id) {
+    return db.run(`UPDATE users SET ${db.columnNames.show} = NOT ${db.columnNames.show}
+    WHERE ${db.columnNames.user_id} = '${user_id}'`).then(() => Users.findByID(user_id))
   }
   
 }

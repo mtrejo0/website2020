@@ -11,10 +11,12 @@
     </div>
     
     <div class="wrapper">
-      <h1 v-if="users.length == 0"> No accounts available</h1>
+      <h1 v-if="users.filter( user => user.show || isAdmin).length == 0"> No accounts available</h1>
       <ul>
-        <li v-for="(user, index) in users" v-bind:key="user">
-            <h1><a :href="`user/${user.user_id}`">{{user.username}}</a></h1>
+        <li v-for="(user, index) in users.filter( user => user.show || isAdmin)" v-bind:key="user">
+            <router-link :to="`user/${user.user_id}`">
+              <h1>{{user.username}}</h1>
+            </router-link>
             <div v-if="user.description">
               {{user.description}}
             </div>
@@ -25,6 +27,8 @@
               </ul>
             </div>
             <button v-if="isAdmin" class="button" v-on:click="removeUser(index)">Delete</button>
+            {{' '}}
+            <button v-if="isAdmin" class="button" v-on:click="toggleUserShow(index)">{{user.show ? "HIDE" : "SHOW"}}</button>
         </li>
       </ul>
     </div>
@@ -90,15 +94,30 @@ export default {
           this.resetForm();
           this.clearMessages();
         });
+    },
+    toggleUserShow: function(index) {
+      axios
+        .put("/api/users/show/"+this.users[index].user_id)
+        .then((res) => {
+          // handle success
+          this.messages.push(res.data.message)
+          this.users[index].show = !this.users[index].show
+        })
+        .catch(err => {
+          // handle error
+          this.errors.push(err.response.data.error);
+        })
+        .then(() => {
+          // always executed
+          this.clearMessages();
+        });
     }
-  },
-  resetForm: function() {
-    this.username = ""
   },
 
   clearMessages: function() {
     setInterval(() => {
       this.errors = [];
+      this.messages = [];
     }, 5000);
   }
 }
