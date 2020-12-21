@@ -5,10 +5,10 @@
       <div class="center">
         <h1>Resume</h1>
         <div>
-          <a href="https://drive.google.com/file/d/18gO-uHsGn10CYh_UgH-22lLgFQhzlMaQ/view?usp=sharing"><button class="button">Click to View</button></a>
-          <!-- {{' '}} -->
-          <!-- <button class="button" v-on:click="download">Download</button> -->
+          <a href="https://drive.google.com/file/d/18gO-uHsGn10CYh_UgH-22lLgFQhzlMaQ/view?usp=sharing"><button class="button">Download</button></a>
         </div>
+        <br/>
+        <iframe src="https://drive.google.com/file/d/18gO-uHsGn10CYh_UgH-22lLgFQhzlMaQ/preview" width="90%" height="800px"></iframe>
       </div>
     </div>
   </div>
